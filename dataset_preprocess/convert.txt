@@ -1,0 +1,7 @@
+Change Image Format
+===================
+mogrify -format png *.tif
+
+Resize Images
+=============
+mogrify -resize 224x224! *.JPEG
