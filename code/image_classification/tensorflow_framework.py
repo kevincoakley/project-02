@@ -11,7 +11,7 @@ import resnet_conv5_tensorflow as resnet_conv5
 
 class Tensorflow:
     def __init__(self):
-        self.script_version = "1.0.0"
+        self.script_version = "1.0.1"
         self.version = tf.version.VERSION
         self.optimizer = "SGD"
         self.nesterov = False
@@ -75,7 +75,9 @@ class Tensorflow:
 
         def augmentation(image, label):
             image = tf.image.resize_with_crop_or_pad(
-                image, dataset_shape[0] + 8, dataset_shape[1] + 8
+                image, 
+                round(dataset_shape[0] + (dataset_shape[0] * .125)), 
+                round(dataset_shape[1] + (dataset_shape[1] * .125))
             )
             image = tf.image.random_crop(image, dataset_shape)
             image = tf.image.random_flip_left_right(image)
