@@ -56,7 +56,6 @@ class Tensorflow:
             exit()
 
     def load_dataset(self, dataset_details, batch_size):
-        # batch_size = model_details["batch_size"]
         train_path = dataset_details["train_path"]
         val_path = dataset_details["val_path"]
         test_path = dataset_details["test_path"]
@@ -173,16 +172,12 @@ class Tensorflow:
         def lr_schedule(epoch):
             if self.lr_warmup and epoch < 5:
                 return self.learning_rate * 0.1
-                return 0.01
             elif epoch < math.ceil(self.epochs * 0.5):
                 return self.learning_rate
-                return 0.1
             elif epoch < math.ceil(self.epochs * 0.75):
                 return self.learning_rate * 0.1
-                return 0.01
             else:
                 return self.learning_rate * 0.01
-                return 0.001
 
         if self.optimizer == "SGD":
             model.compile(
