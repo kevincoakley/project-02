@@ -1,7 +1,7 @@
 import argparse, csv, os, sys, yaml
 from datetime import datetime
 
-script_version = "1.0.0"
+script_version = "1.0.1"
 
 
 def get_dataset_details(dataset_name):
@@ -93,15 +93,20 @@ def image_classification(
         from tensorflow_framework import Tensorflow
 
         framework = Tensorflow()
-        framework.learning_rate = learning_rate
-        framework.lr_scheduler = lr_scheduler
-        framework.lr_warmup = lr_warmup
-        framework.optimizer = optimizer
-        framework.epochs = epochs
-        framework.nesterov = nestrov
 
-        framework.save_epoch_logs = save_epoch_logs
-        framework.save_tensorboard_logs = save_tensorboard_logs
+    elif machine_learning_framework == "PyTorch":
+        from pytorch_framework import Pytorch
+
+        framework = Pytorch()
+
+    framework.learning_rate = learning_rate
+    framework.lr_scheduler = lr_scheduler
+    framework.lr_warmup = lr_warmup
+    framework.optimizer = optimizer
+    framework.epochs = epochs
+    framework.nesterov = nestrov
+    framework.save_epoch_logs = save_epoch_logs
+    framework.save_tensorboard_logs = save_tensorboard_logs
 
     if seed_val != 1:
         """
@@ -227,6 +232,8 @@ def image_classification(
         # Append the file extension based on the machine learning framework
         if machine_learning_framework == "TensorFlow":
             model_path = model_path + ".keras"
+        elif machine_learning_framework == "PyTorch":
+            model_path = model_path + ".pth"
 
         framework.save(trained_model, model_path)
 
@@ -271,6 +278,11 @@ def save_score(
         from tensorflow_framework import Tensorflow
 
         framework = Tensorflow()
+        
+    elif machine_learning_framework == "PyTorch":
+        from pytorch_framework import Pytorch
+
+        framework = Pytorch()
 
     csv_file = filename + ".csv"
     write_header = False
@@ -456,6 +468,7 @@ def parse_arguments(args):
         default="TensorFlow",
         choices=[
             "TensorFlow",
+            "PyTorch",
         ],
         required=True,
     )
