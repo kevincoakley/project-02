@@ -5,13 +5,15 @@ import csv, datetime, math, random
 import numpy as np
 from sklearn.metrics import accuracy_score
 
+import densenet_conv4_tensorflow as densenet_conv4
+import densenet_conv5_tensorflow as densenet_conv5
 import resnet_conv4_tensorflow as resnet_conv4
 import resnet_conv5_tensorflow as resnet_conv5
 
 
 class Tensorflow:
     def __init__(self):
-        self.script_version = "1.0.2"
+        self.script_version = "1.0.3"
         self.version = tf.version.VERSION
         self.optimizer = "SGD"
         self.nesterov = False
@@ -132,6 +134,16 @@ class Tensorflow:
         dataset_shape = dataset_details["dataset_shape"]
 
         model_functions = {
+            "DenseNet_k12d40": densenet_conv4.densenet_k12d40,
+            "DenseNet_k12d100": densenet_conv4.densenet_k12d100,
+            "DenseNet_k24d100": densenet_conv4.densenet_k24d100,
+            "DenseNet_bc_k12d100": densenet_conv4.densenet_bc_k12d100,
+            "DenseNet_bc_k24d250": densenet_conv4.densenet_bc_k24d250,
+            "DenseNet_bc_k40d190": densenet_conv4.densenet_bc_k40d190,
+            "DenseNet121": densenet_conv5.densenet121,
+            "DenseNet169": densenet_conv5.densenet169,
+            "DenseNet201": densenet_conv5.densenet201,
+            "DenseNet264": densenet_conv5.densenet264,
             "ResNet20": resnet_conv4.resnet20,
             "ResNet32": resnet_conv4.resnet32,
             "ResNet44": resnet_conv4.resnet44,
