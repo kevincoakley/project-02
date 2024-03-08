@@ -14,7 +14,7 @@ import resnet_conv5_pytorch as resnet_conv5
 
 class Pytorch:
     def __init__(self):
-        self.script_version = "1.0.1"
+        self.script_version = "1.0.2"
         self.version = torch.__version__
         self.device = torch.device("cuda:0")
         self.optimizer = "SGD"
@@ -168,13 +168,18 @@ class Pytorch:
 
             return lr
 
-        optimizer = torch.optim.SGD(
-            model.parameters(),
-            lr=lr_schedule(0),
-            weight_decay=0.0001,
-            momentum=0.9,
-            nesterov=self.nesterov,
-        )
+        if self.optimizer == "SGD":
+            optimizer = torch.optim.SGD(
+                model.parameters(),
+                lr=lr_schedule(0),
+                weight_decay=0.0001,
+                momentum=0.9,
+                nesterov=self.nesterov,
+            )
+        elif self.optimizer == "Adam":
+            optimizer = torch.optim.Adam(
+                model.parameters(), lr=lr_schedule(0), eps=1e-07,
+            )
 
         def train_one_epoch():
             running_loss = 0
