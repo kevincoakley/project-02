@@ -1,7 +1,7 @@
 import argparse, csv, os, sys, yaml
 from datetime import datetime
 
-script_version = "1.0.1"
+script_version = "1.0.2"
 
 
 def get_dataset_details(dataset_name):
@@ -479,6 +479,16 @@ def parse_arguments(args):
         help="Name of model to train",
         default="ResNet20",
         choices=[
+            "DenseNet_k12d40",
+            "DenseNet_k12d100",
+            "DenseNet_k24d100",
+            "DenseNet_bc_k12d100",
+            "DenseNet_bc_k24d250",
+            "DenseNet_bc_k40d190",
+            "DenseNet121",
+            "DenseNet169",
+            "DenseNet201",
+            "DenseNet264",
             "ResNet20",
             "ResNet32",
             "ResNet44",
