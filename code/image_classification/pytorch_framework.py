@@ -6,12 +6,15 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from datetime import datetime
 
+import densenet_conv4_pytorch as densenet_conv4
+import densenet_conv5_pytorch as densenet_conv5
 import resnet_conv4_pytorch as resnet_conv4
+import resnet_conv5_pytorch as resnet_conv5
 
 
 class Pytorch:
     def __init__(self):
-        self.script_version = "1.0.0"
+        self.script_version = "1.0.1"
         self.version = torch.__version__
         self.device = torch.device("cuda:0")
         self.optimizer = "SGD"
@@ -100,12 +103,27 @@ class Pytorch:
         num_classes = dataset_details["num_classes"]
 
         model_functions = {
+            "DenseNet_k12d40": densenet_conv4.densenet_k12d40,
+            "DenseNet_k12d100": densenet_conv4.densenet_k12d100,
+            "DenseNet_k24d100": densenet_conv4.densenet_k24d100,
+            "DenseNet_bc_k12d100": densenet_conv4.densenet_bc_k12d100,
+            "DenseNet_bc_k24d250": densenet_conv4.densenet_bc_k24d250,
+            "DenseNet_bc_k40d190": densenet_conv4.densenet_bc_k40d190,
+            "DenseNet121": densenet_conv5.densenet121,
+            "DenseNet169": densenet_conv5.densenet169,
+            "DenseNet201": densenet_conv5.densenet201,
+            "DenseNet264": densenet_conv5.densenet264,
             "ResNet20": resnet_conv4.resnet20,
             "ResNet32": resnet_conv4.resnet32,
             "ResNet44": resnet_conv4.resnet44,
             "ResNet56": resnet_conv4.resnet56,
             "ResNet110": resnet_conv4.resnet110,
             "ResNet1202": resnet_conv4.resnet1202,
+            "ResNet18": resnet_conv5.resnet18,
+            "ResNet34": resnet_conv5.resnet34,
+            "ResNet50": resnet_conv5.resnet50,
+            "ResNet101": resnet_conv5.resnet101,
+            "ResNet152": resnet_conv5.resnet152,
         }
 
         model = model_functions[model_name](num_classes=num_classes)
