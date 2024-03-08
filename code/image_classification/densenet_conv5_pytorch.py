@@ -222,31 +222,22 @@ class DenseNet(torch.nn.Module):
         return x
 
 
-def densenet_k12d40(num_classes=10):
-    return DenseNet(
-        depth=40,
-        growth_rate=12,
-        compression_reduction=1,
-        bottleneck=False,
-        num_classes=num_classes,
-    )
-
-def densenet_121(num_classes=10):
+def densenet121(num_classes=10):
     return DenseNet(num_block=(6, 12, 24, 16), num_classes=num_classes)
 
-def densenet_169(num_classes=10):
+def densenet169(num_classes=10):
     return DenseNet(num_block=(6, 12, 32, 32), num_classes=num_classes)
 
-def densenet_201(num_classes=10):
+def densenet201(num_classes=10):
     return DenseNet(num_block=(6, 12, 48, 32), num_classes=num_classes)
 
-def densenet_264(num_classes=10):
+def densenet264(num_classes=10):
     return DenseNet(num_block=(6, 12, 64, 48), num_classes=num_classes)
 
 if __name__ == "__main__":
     from torchsummary import summary
 
-    model = densenet_121()
+    model = densenet121()
     summary(model, (3, 224, 224))
 
     from torchview import draw_graph

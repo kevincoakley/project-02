@@ -205,21 +205,21 @@ def densenet(input_shape, num_block, num_classes=10):
 
     return model
 
-def densenet_121(input_shape, num_classes=10):
+def densenet121(input_shape, num_classes=10):
     return densenet(input_shape, num_block=(6, 12, 24, 16), num_classes=num_classes)
 
-def densenet_169(input_shape, num_classes=10):
+def densenet169(input_shape, num_classes=10):
     return densenet(input_shape, num_block=(6, 12, 32, 32), num_classes=num_classes)
 
-def densenet_201(input_shape, num_classes=10):
+def densenet201(input_shape, num_classes=10):
     return densenet(input_shape, num_block=(6, 12, 48, 32), num_classes=num_classes)
 
-def densenet_264(input_shape, num_classes=10):
+def densenet264(input_shape, num_classes=10):
     return densenet(input_shape, num_block=(6, 12, 64, 48), num_classes=num_classes)
 
 
 if __name__ == "__main__":
-    model = densenet_121((224, 224, 3), num_classes=10)
+    model = densenet121((224, 224, 3), num_classes=10)
 
     model.summary()
 
