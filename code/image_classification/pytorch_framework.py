@@ -10,11 +10,13 @@ import densenet_conv4_pytorch as densenet_conv4
 import densenet_conv5_pytorch as densenet_conv5
 import resnet_conv4_pytorch as resnet_conv4
 import resnet_conv5_pytorch as resnet_conv5
+import simple_conv4_pytorch as simple_conv4
+import simple_conv5_pytorch as simple_conv5
 
 
 class Pytorch:
     def __init__(self):
-        self.script_version = "1.0.2"
+        self.script_version = "1.0.3"
         self.version = torch.__version__
         self.device = torch.device("cuda:0")
         self.optimizer = "SGD"
@@ -124,6 +126,22 @@ class Pytorch:
             "ResNet50": resnet_conv5.resnet50,
             "ResNet101": resnet_conv5.resnet101,
             "ResNet152": resnet_conv5.resnet152,
+            "Simple4_1": simple_conv4.simple4_1,
+            "Simple4_3": simple_conv4.simple4_3,
+            "Simple4_5": simple_conv4.simple4_5,
+            "Simple4_7": simple_conv4.simple4_7,
+            "Simple4_9": simple_conv4.simple4_9,
+            "Simple4_11": simple_conv4.simple4_11,
+            "Simple4_13": simple_conv4.simple4_13,
+            "Simple4_15": simple_conv4.simple4_15,
+            "Simple5_1": simple_conv5.simple5_1,
+            "Simple5_3": simple_conv5.simple5_3,
+            "Simple5_5": simple_conv5.simple5_5,
+            "Simple5_7": simple_conv5.simple5_7,
+            "Simple5_9": simple_conv5.simple5_9,
+            "Simple5_11": simple_conv5.simple5_11,
+            "Simple5_13": simple_conv5.simple5_13,
+            "Simple5_15": simple_conv5.simple5_15,
         }
 
         model = model_functions[model_name](num_classes=num_classes)

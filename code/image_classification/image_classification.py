@@ -1,7 +1,7 @@
 import argparse, csv, os, sys, yaml
 from datetime import datetime
 
-script_version = "1.0.2"
+script_version = "1.0.3"
 
 
 def get_dataset_details(dataset_name):
@@ -500,6 +500,22 @@ def parse_arguments(args):
             "ResNet50",
             "ResNet101",
             "ResNet152",
+            "Simple4_1",
+            "Simple4_3",
+            "Simple4_5",
+            "Simple4_7",
+            "Simple4_9",
+            "Simple4_11",
+            "Simple4_13",
+            "Simple4_15",
+            "Simple5_1",
+            "Simple5_3",
+            "Simple5_5",
+            "Simple5_7",
+            "Simple5_9",
+            "Simple5_11",
+            "Simple5_13",
+            "Simple5_15",
         ],
         required=True,
     )
