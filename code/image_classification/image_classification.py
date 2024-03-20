@@ -1,7 +1,7 @@
 import argparse, csv, os, sys, yaml
 from datetime import datetime
 
-script_version = "1.0.3"
+script_version = "1.0.4"
 
 
 def get_dataset_details(dataset_name):
@@ -278,7 +278,7 @@ def save_score(
         from tensorflow_framework import Tensorflow
 
         framework = Tensorflow()
-        
+
     elif machine_learning_framework == "PyTorch":
         from pytorch_framework import Pytorch
 
@@ -500,22 +500,16 @@ def parse_arguments(args):
             "ResNet50",
             "ResNet101",
             "ResNet152",
-            "Simple4_1",
-            "Simple4_3",
-            "Simple4_5",
-            "Simple4_7",
-            "Simple4_9",
-            "Simple4_11",
-            "Simple4_13",
-            "Simple4_15",
-            "Simple5_1",
-            "Simple5_3",
-            "Simple5_5",
-            "Simple5_7",
-            "Simple5_9",
-            "Simple5_11",
-            "Simple5_13",
-            "Simple5_15",
+            "ViTTiny8",
+            "ViTS8",
+            "ViTB8",
+            "ViTL8",
+            "ViTH8",
+            "ViTTiny16",
+            "ViTS16",
+            "ViTB16",
+            "ViTL16",
+            "ViTH16",
         ],
         required=True,
     )

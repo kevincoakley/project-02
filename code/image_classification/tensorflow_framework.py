@@ -9,13 +9,12 @@ import densenet_conv4_tensorflow as densenet_conv4
 import densenet_conv5_tensorflow as densenet_conv5
 import resnet_conv4_tensorflow as resnet_conv4
 import resnet_conv5_tensorflow as resnet_conv5
-import simple_conv4_tensorflow as simple_conv4
-import simple_conv5_tensorflow as simple_conv5
+import vit_tensorflow as vit
 
 
 class Tensorflow:
     def __init__(self):
-        self.script_version = "1.0.4"
+        self.script_version = "1.0.5"
         self.version = tf.version.VERSION
         self.optimizer = "SGD"
         self.nesterov = False
@@ -79,9 +78,9 @@ class Tensorflow:
 
         def augmentation(image, label):
             image = tf.image.resize_with_crop_or_pad(
-                image, 
-                round(dataset_shape[0] + (dataset_shape[0] * .25)), 
-                round(dataset_shape[1] + (dataset_shape[1] * .25))
+                image,
+                round(dataset_shape[0] + (dataset_shape[0] * 0.25)),
+                round(dataset_shape[1] + (dataset_shape[1] * 0.25)),
             )
             image = tf.image.random_crop(image, dataset_shape)
             image = tf.image.random_flip_left_right(image)
@@ -157,22 +156,16 @@ class Tensorflow:
             "ResNet50": resnet_conv5.resnet50,
             "ResNet101": resnet_conv5.resnet101,
             "ResNet152": resnet_conv5.resnet152,
-            "Simple4_1": simple_conv4.simple4_1,
-            "Simple4_3": simple_conv4.simple4_3,
-            "Simple4_5": simple_conv4.simple4_5,
-            "Simple4_7": simple_conv4.simple4_7,
-            "Simple4_9": simple_conv4.simple4_9,
-            "Simple4_11": simple_conv4.simple4_11,
-            "Simple4_13": simple_conv4.simple4_13,
-            "Simple4_15": simple_conv4.simple4_15,
-            "Simple5_1": simple_conv5.simple5_1,
-            "Simple5_3": simple_conv5.simple5_3,
-            "Simple5_5": simple_conv5.simple5_5,
-            "Simple5_7": simple_conv5.simple5_7,
-            "Simple5_9": simple_conv5.simple5_9,
-            "Simple5_11": simple_conv5.simple5_11,
-            "Simple5_13": simple_conv5.simple5_13,
-            "Simple5_15": simple_conv5.simple5_15,
+            "ViTTiny8": vit.vitt8,
+            "ViTS8": vit.vits8,
+            "ViTB8": vit.vitb8,
+            "ViTL8": vit.vitl8,
+            "ViTH8": vit.vith8,
+            "ViTTiny16": vit.vitt16,
+            "ViTS16": vit.vits16,
+            "ViTB16": vit.vitb16,
+            "ViTL16": vit.vitl16,
+            "ViTH16": vit.vith16,
         }
 
         model = model_functions[model_name](

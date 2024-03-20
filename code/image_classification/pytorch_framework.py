@@ -10,13 +10,11 @@ import densenet_conv4_pytorch as densenet_conv4
 import densenet_conv5_pytorch as densenet_conv5
 import resnet_conv4_pytorch as resnet_conv4
 import resnet_conv5_pytorch as resnet_conv5
-import simple_conv4_pytorch as simple_conv4
-import simple_conv5_pytorch as simple_conv5
 
 
 class Pytorch:
     def __init__(self):
-        self.script_version = "1.0.3"
+        self.script_version = "1.0.4"
         self.version = torch.__version__
         self.device = torch.device("cuda:0")
         self.optimizer = "SGD"
@@ -27,7 +25,6 @@ class Pytorch:
         self.learning_rate = 0.0
         self.save_epoch_logs = False
         self.save_tensorboard_logs = False
-
 
     def set_random_seed(self, seed_val):
         torch.manual_seed(seed_val)
@@ -51,7 +48,11 @@ class Pytorch:
 
         preprocessing = torchvision.transforms.Compose(
             [
-                torchvision.transforms.Resize((dataset_shape[0], dataset_shape[1]), interpolation=torchvision.transforms.InterpolationMode.NEAREST, antialias=False),
+                torchvision.transforms.Resize(
+                    (dataset_shape[0], dataset_shape[1]),
+                    interpolation=torchvision.transforms.InterpolationMode.NEAREST,
+                    antialias=False,
+                ),
                 torchvision.transforms.ToTensor(),
                 normalize,
             ]
@@ -59,9 +60,14 @@ class Pytorch:
 
         preprocessing_augument = torchvision.transforms.Compose(
             [
-                torchvision.transforms.Resize((dataset_shape[0], dataset_shape[1]), interpolation=torchvision.transforms.InterpolationMode.NEAREST, antialias=False),
-                torchvision.transforms.Pad((round(dataset_shape[0] * .25), 
-                                            round(dataset_shape[1] * .25))),
+                torchvision.transforms.Resize(
+                    (dataset_shape[0], dataset_shape[1]),
+                    interpolation=torchvision.transforms.InterpolationMode.NEAREST,
+                    antialias=False,
+                ),
+                torchvision.transforms.Pad(
+                    (round(dataset_shape[0] * 0.25), round(dataset_shape[1] * 0.25))
+                ),
                 torchvision.transforms.RandomCrop((dataset_shape[0], dataset_shape[1])),
                 torchvision.transforms.RandomHorizontalFlip(),
                 torchvision.transforms.ToTensor(),
@@ -126,22 +132,6 @@ class Pytorch:
             "ResNet50": resnet_conv5.resnet50,
             "ResNet101": resnet_conv5.resnet101,
             "ResNet152": resnet_conv5.resnet152,
-            "Simple4_1": simple_conv4.simple4_1,
-            "Simple4_3": simple_conv4.simple4_3,
-            "Simple4_5": simple_conv4.simple4_5,
-            "Simple4_7": simple_conv4.simple4_7,
-            "Simple4_9": simple_conv4.simple4_9,
-            "Simple4_11": simple_conv4.simple4_11,
-            "Simple4_13": simple_conv4.simple4_13,
-            "Simple4_15": simple_conv4.simple4_15,
-            "Simple5_1": simple_conv5.simple5_1,
-            "Simple5_3": simple_conv5.simple5_3,
-            "Simple5_5": simple_conv5.simple5_5,
-            "Simple5_7": simple_conv5.simple5_7,
-            "Simple5_9": simple_conv5.simple5_9,
-            "Simple5_11": simple_conv5.simple5_11,
-            "Simple5_13": simple_conv5.simple5_13,
-            "Simple5_15": simple_conv5.simple5_15,
         }
 
         model = model_functions[model_name](num_classes=num_classes)
@@ -152,7 +142,7 @@ class Pytorch:
         print(f"Number of parameters: {total_params}")
 
         return model
-    
+
     def train(
         self,
         model,
@@ -196,7 +186,9 @@ class Pytorch:
             )
         elif self.optimizer == "Adam":
             optimizer = torch.optim.Adam(
-                model.parameters(), lr=lr_schedule(0), eps=1e-07,
+                model.parameters(),
+                lr=lr_schedule(0),
+                eps=1e-07,
             )
 
         def train_one_epoch():
