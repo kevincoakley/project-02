@@ -53,6 +53,7 @@ if __name__ == "__main__":
         dest="path",
         help="path to the dataset",
         type=str,
+        required=True,
     )
 
     args = parser.parse_args()
