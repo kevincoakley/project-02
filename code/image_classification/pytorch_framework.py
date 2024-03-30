@@ -10,15 +10,17 @@ import densenet_conv4_pytorch as densenet_conv4
 import densenet_conv5_pytorch as densenet_conv5
 import resnet_conv4_pytorch as resnet_conv4
 import resnet_conv5_pytorch as resnet_conv5
+import timm_pytorch as timm_pytorch
 
 
 class Pytorch:
     def __init__(self):
-        self.script_version = "1.0.4"
+        self.script_version = "1.0.5"
         self.version = torch.__version__
         self.device = torch.device("cuda:0")
         self.optimizer = "SGD"
         self.nesterov = False
+        self.pretrained = False
         self.epochs = 0
         self.lr_scheduler = False
         self.lr_warmup = False
@@ -109,6 +111,7 @@ class Pytorch:
 
     def load_model(self, model_name, dataset_details):
         num_classes = dataset_details["num_classes"]
+        dataset_shape = dataset_details["dataset_shape"]
 
         model_functions = {
             "DenseNet_k12d40": densenet_conv4.densenet_k12d40,
@@ -132,9 +135,24 @@ class Pytorch:
             "ResNet50": resnet_conv5.resnet50,
             "ResNet101": resnet_conv5.resnet101,
             "ResNet152": resnet_conv5.resnet152,
+            "ViTS8": timm_pytorch.timm_vit_s_8,
+            "ViTB8": timm_pytorch.timm_vit_b_8,
+            "ViTTiny16": timm_pytorch.timm_vit_t_16,
+            "ViTS16": timm_pytorch.timm_vit_s_16,
+            "ViTB16": timm_pytorch.timm_vit_b_16,
+            "ViTL16": timm_pytorch.timm_vit_l_16,
+            "ViTH16": timm_pytorch.timm_vit_h_16,
         }
 
-        model = model_functions[model_name](num_classes=num_classes)
+        # If the function name is a timm model, use the pretrained parameter
+        if "timm" in model_functions[model_name].__name__:
+            model = model_functions[model_name](
+                input_shape=dataset_shape,
+                num_classes=num_classes,
+                pretrained=self.pretrained,
+            )
+        else:
+            model = model_functions[model_name](num_classes=num_classes)
 
         model.to(self.device)
 
@@ -189,6 +207,13 @@ class Pytorch:
                 model.parameters(),
                 lr=lr_schedule(0),
                 eps=1e-07,
+            )
+        elif self.optimizer == "AdamW":
+            optimizer = torch.optim.AdamW(
+                model.parameters(),
+                lr=lr_schedule(0),
+                eps=1e-07,
+                weight_decay=0.0001,
             )
 
         def train_one_epoch():

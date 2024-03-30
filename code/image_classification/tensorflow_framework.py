@@ -9,12 +9,11 @@ import densenet_conv4_tensorflow as densenet_conv4
 import densenet_conv5_tensorflow as densenet_conv5
 import resnet_conv4_tensorflow as resnet_conv4
 import resnet_conv5_tensorflow as resnet_conv5
-import vit_tensorflow as vit
 
 
 class Tensorflow:
     def __init__(self):
-        self.script_version = "1.0.5"
+        self.script_version = "1.0.6"
         self.version = tf.version.VERSION
         self.optimizer = "SGD"
         self.nesterov = False
@@ -156,16 +155,6 @@ class Tensorflow:
             "ResNet50": resnet_conv5.resnet50,
             "ResNet101": resnet_conv5.resnet101,
             "ResNet152": resnet_conv5.resnet152,
-            "ViTTiny8": vit.vitt8,
-            "ViTS8": vit.vits8,
-            "ViTB8": vit.vitb8,
-            "ViTL8": vit.vitl8,
-            "ViTH8": vit.vith8,
-            "ViTTiny16": vit.vitt16,
-            "ViTS16": vit.vits16,
-            "ViTB16": vit.vitb16,
-            "ViTL16": vit.vitl16,
-            "ViTH16": vit.vith16,
         }
 
         model = model_functions[model_name](
@@ -218,6 +207,14 @@ class Tensorflow:
         elif self.optimizer == "Adam":
             model.compile(
                 optimizer=tf.keras.optimizers.Adam(learning_rate=lr_schedule(0)),
+                loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+                metrics=["accuracy"],
+            )
+        elif self.optimizer == "AdamW":
+            model.compile(
+                optimizer=tf.keras.optimizers.AdamW(
+                    learning_rate=lr_schedule(0), weight_decay=0.0001
+                ),
                 loss=tf.keras.losses.SparseCategoricalCrossentropy(),
                 metrics=["accuracy"],
             )

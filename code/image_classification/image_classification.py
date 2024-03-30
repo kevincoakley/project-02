@@ -1,7 +1,7 @@
 import argparse, csv, os, sys, yaml
 from datetime import datetime
 
-script_version = "1.0.4"
+script_version = "1.0.5"
 
 
 def get_dataset_details(dataset_name):
@@ -31,12 +31,34 @@ def get_dataset_details(dataset_name):
                 "std": (0.247, 0.2435, 0.2616),
             },
         },
+        "cifar10_224": {
+            "train_path": "./cifar10/train/",
+            "val_path": "./cifar10/val/",
+            "test_path": "./cifar10/test/",
+            "num_classes": 10,
+            "dataset_shape": (224, 224, 3),
+            "normalization": {
+                "mean": (0.4914, 0.4822, 0.4465),
+                "std": (0.247, 0.2435, 0.2616),
+            },
+        },
         "cifar100": {
             "train_path": "./cifar100/train/",
             "val_path": "./cifar100/val/",
             "test_path": "./cifar100/test/",
             "num_classes": 100,
             "dataset_shape": (32, 32, 3),
+            "normalization": {
+                "mean": (0.5071, 0.4865, 0.4409),
+                "std": (0.2673, 0.2564, 0.2762),
+            },
+        },
+        "cifar100_224": {
+            "train_path": "./cifar100/train/",
+            "val_path": "./cifar100/val/",
+            "test_path": "./cifar100/test/",
+            "num_classes": 100,
+            "dataset_shape": (224, 224, 3),
             "normalization": {
                 "mean": (0.5071, 0.4865, 0.4409),
                 "std": (0.2673, 0.2564, 0.2762),
@@ -51,6 +73,17 @@ def get_dataset_details(dataset_name):
             "normalization": {
                 "mean": (0.4623, 0.458, 0.4305),
                 "std": (0.2829, 0.2797, 0.3018),
+            },
+        },
+        "oxford_iiit_pet": {
+            "train_path": "./oxford_iiit_pet/train/",
+            "val_path": "./oxford_iiit_pet/val/",
+            "test_path": "./oxford_iiit_pet/test/",
+            "num_classes": 37,
+            "dataset_shape": (224, 224, 3),
+            "normalization": {
+                "mean": (0.4815, 0.4485, 0.3949),
+                "std": (0.2693, 0.2648, 0.2729),
             },
         },
         "uc_merced": {
@@ -81,6 +114,7 @@ def image_classification(
     optimizer="SGD",
     epochs=0,
     nestrov=False,
+    pretrained=False,
     seed_val=1,
     run_name="",
     start="",
@@ -105,6 +139,7 @@ def image_classification(
     framework.optimizer = optimizer
     framework.epochs = epochs
     framework.nesterov = nestrov
+    framework.pretrained = pretrained
     framework.save_epoch_logs = save_epoch_logs
     framework.save_tensorboard_logs = save_tensorboard_logs
 
@@ -265,6 +300,7 @@ def save_score(
     optimzer,
     epochs,
     nestrov,
+    pretrained,
     training_time,
     model_name,
     dataset_name,
@@ -311,6 +347,7 @@ def save_score(
             "optimizer",
             "epochs",
             "nestrov",
+            "pretrained",
             "model_name",
             "dataset_name",
             "random_seed",
@@ -340,6 +377,7 @@ def save_score(
                 "optimizer": optimzer,
                 "epochs": epochs,
                 "nestrov": nestrov,
+                "pretrained": pretrained,
                 "model_name": model_name,
                 "dataset_name": dataset_name,
                 "random_seed": seed_val,
@@ -402,6 +440,7 @@ def parse_arguments(args):
         choices=[
             "SGD",
             "Adam",
+            "AdamW",
         ],
         required=True,
     )
@@ -418,6 +457,13 @@ def parse_arguments(args):
         "--nestrov",
         dest="nestrov",
         help="Use Nesterov momentum in the optimizer",
+        action="store_true",
+    )
+
+    parser.add_argument(
+        "--pretrained",
+        dest="pretrained",
+        help="Use a pretrained weights",
         action="store_true",
     )
 
@@ -500,11 +546,8 @@ def parse_arguments(args):
             "ResNet50",
             "ResNet101",
             "ResNet152",
-            "ViTTiny8",
             "ViTS8",
             "ViTB8",
-            "ViTL8",
-            "ViTH8",
             "ViTTiny16",
             "ViTS16",
             "ViTB16",
@@ -522,8 +565,11 @@ def parse_arguments(args):
         choices=[
             "cats_vs_dogs",
             "cifar10",
+            "cifar10_224",
             "cifar100",
+            "cifar100_224",
             "imagenette",
+            "oxford_iiit_pet",
             "uc_merced",
         ],
         required=True,
@@ -564,6 +610,7 @@ if __name__ == "__main__":
         optimizer=args.optimizer,
         epochs=epochs,
         nestrov=args.nestrov,
+        pretrained=args.pretrained,
         seed_val=seed_val,
         run_name=args.run_name,
         start=start,
@@ -583,6 +630,7 @@ if __name__ == "__main__":
         optimzer=args.optimizer,
         epochs=epochs,
         nestrov=args.nestrov,
+        pretrained=args.pretrained,
         training_time=training_time,
         model_name=args.model_name,
         dataset_name=args.dataset_name,
