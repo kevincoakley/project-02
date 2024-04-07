@@ -1,7 +1,7 @@
 import argparse, csv, os, sys, yaml
 from datetime import datetime
 
-script_version = "1.0.5"
+script_version = "1.0.6"
 
 
 def get_dataset_details(dataset_name):
@@ -73,6 +73,17 @@ def get_dataset_details(dataset_name):
             "normalization": {
                 "mean": (0.4623, 0.458, 0.4305),
                 "std": (0.2829, 0.2797, 0.3018),
+            },
+        },
+        "oxford_flowers102": {
+            "train_path": "./oxford_flowers102/test/",
+            "val_path": "./oxford_flowers102/val/",
+            "test_path": "./oxford_flowers102/train/",
+            "num_classes": 102,
+            "dataset_shape": (224, 224, 3),
+            "normalization": {
+                "mean": (0.4383, 0.3799, 0.2917),
+                "std": (0.2936, 0.2432, 0.2672),
             },
         },
         "oxford_iiit_pet": {
@@ -569,6 +580,7 @@ def parse_arguments(args):
             "cifar100",
             "cifar100_224",
             "imagenette",
+            "oxford_flowers102",
             "oxford_iiit_pet",
             "uc_merced",
         ],
