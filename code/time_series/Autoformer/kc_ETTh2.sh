@@ -20,8 +20,8 @@ else
     start=0
 fi
 
-if [[ "${2}" != "" ]]; then
-    count="${2}"
+if [[ "${3}" != "" ]]; then
+    count="${3}"
 else
     count=100
 fi
