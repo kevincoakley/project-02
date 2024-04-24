@@ -26,8 +26,6 @@ else
     count=100
 fi
 
-seq_len=336
-
 array=( 
     3664629611
     29616477
