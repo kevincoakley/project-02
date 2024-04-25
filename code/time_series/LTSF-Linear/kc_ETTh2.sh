@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python
+export CUBLAS_WORKSPACE_CONFIG=:4096:8
+
 if [[ "${1}" != "" ]]; then
     model_name="${1}"
 else
