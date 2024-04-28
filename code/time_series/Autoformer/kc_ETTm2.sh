@@ -10,10 +10,10 @@ else
     exit 1
 fi
 
-pred_len_array=(96 192 336 720)
+pred_len_array=(24 48 96 288 672)
 
 if [[ ! " ${pred_len_array[@]} " =~ " ${pred_len} " ]]; then
-    echo "pred_len must be one of [96, 192, 336, 720]"
+    echo "pred_len must be one of [2, 48, 96, 288, 672]"
     exit 1
 fi
 
