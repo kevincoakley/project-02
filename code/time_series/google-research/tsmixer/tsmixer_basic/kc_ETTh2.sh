@@ -29,7 +29,7 @@ else
     count=100
 fi
 
-seq_len=512
+seq_len=96
 
 array=( 
     3664629611
@@ -145,7 +145,7 @@ do
     --n_block 2 \
     --dropout 0.9 \
     --ff_dim 64 \
-    --csv_file TSMixer_ETTh2_$pred_len'_'$start'_'$count.csv \
+    --csv_file TSMixer_ETTh2_$seq_len'_'$pred_len'_'$start'_'$count.csv \
     --seed $i
 
 done

@@ -29,6 +29,8 @@ else
     count=100
 fi
 
+seq_len=96
+
 array=( 
     3664629611
     29616477
@@ -142,7 +144,7 @@ do
     --model iTransformer \
     --data ETTh1 \
     --features M \
-    --seq_len 96 \
+    --seq_len $seq_len \
     --pred_len $pred_len \
     --e_layers 2 \
     --enc_in 7 \
@@ -152,7 +154,7 @@ do
     --d_model 256 \
     --d_ff 256 \
     --itr 1 \
-    --csv_file iTransformer_ETTh1_$pred_len'_'$start'_'$count.csv \
+    --csv_file iTransformer_ETTh1_$seq_len'_'$pred_len'_'$start'_'$count.csv \
     --seed $i
 
 done

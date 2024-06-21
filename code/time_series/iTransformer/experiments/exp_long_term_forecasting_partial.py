@@ -248,6 +248,7 @@ class Exp_Long_Term_Forecast_Partial(Exp_Basic):
 
         preds = []
         trues = []
+        inputx = []
         folder_path = './test_results/' + setting + '/'
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
@@ -311,6 +312,7 @@ class Exp_Long_Term_Forecast_Partial(Exp_Basic):
 
                 preds.append(pred)
                 trues.append(true)
+                inputx.append(batch_x.detach().cpu().numpy())
                 if i % 20 == 0:
                     input = batch_x.detach().cpu().numpy()
                     if test_data.scale and self.args.inverse:
@@ -322,9 +324,11 @@ class Exp_Long_Term_Forecast_Partial(Exp_Basic):
 
         preds = np.array(preds)
         trues = np.array(trues)
+        inputx = np.array(inputx)
         print('test shape:', preds.shape, trues.shape)
         preds = preds.reshape(-1, preds.shape[-2], preds.shape[-1])
         trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
+        inputx = inputx.reshape(-1, inputx.shape[-2], inputx.shape[-1])
         print('test shape:', preds.shape, trues.shape)
 
         # result save
@@ -341,11 +345,14 @@ class Exp_Long_Term_Forecast_Partial(Exp_Basic):
         f.write('\n')
         f.close()
 
-        exp_logger("../", self.args.csv_file, self.args.model, self.args.data, self.args.pred_len, self.args.seed, mse, mae)
+        exp_logger("../", self.args.csv_file, self.args.model, self.args.data, self.args.seq_len, self.args.pred_len, self.args.seed, mse, mae)
 
-        np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
-        np.save(folder_path + 'pred.npy', preds)
+        np.save(folder_path + 'metrics_' + str(self.args.seed) + '.npy', np.array([mae, mse, rmse, mape, mspe]))
+        np.save(folder_path + 'pred_' + str(self.args.seed) + '.npy', preds)
         np.save(folder_path + 'true.npy', trues)
+        np.save(folder_path + 'x.npy', inputx)
+
+        torch.save(self.model, folder_path + '/model_' + str(self.args.seed) + '.pth')
 
         return
 

@@ -280,7 +280,7 @@ def main():
   if 'TSMixer' in args.model:
     data['ff_dim'] = args.ff_dim
 
-  exp_logger.exp_logger("../../../", args.csv_file, args.model, args.data, args.pred_len, args.seed, test_result[0], test_result[1])
+  exp_logger.exp_logger("../../../", args.csv_file, args.model, args.data, args.seq_len, args.pred_len, args.seed, test_result[0], test_result[1])
 
   df = pd.DataFrame(data)
   if os.path.exists(args.result_path):

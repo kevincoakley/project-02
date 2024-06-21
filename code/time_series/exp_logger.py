@@ -1,6 +1,6 @@
 import csv, datetime, os
 
-def exp_logger(path, csv_file, model, dataset, horizon, seed, mse, mae):
+def exp_logger(path, csv_file, model, dataset, sequence, horizon, seed, mse, mae):
  
     csv_path = "%s/%s" % (path, csv_file)
 
@@ -14,6 +14,7 @@ def exp_logger(path, csv_file, model, dataset, horizon, seed, mse, mae):
             "date_time",
             "model",
             "dataset",
+            "sequence",
             "horizon",
             "seed",
             "mse",
@@ -30,6 +31,7 @@ def exp_logger(path, csv_file, model, dataset, horizon, seed, mse, mae):
                 "date_time": datetime.datetime.now(),
                 "model": model,
                 "dataset": dataset,
+                "sequence": sequence,
                 "horizon": horizon,
                 "seed": seed,
                 "mse": mse,

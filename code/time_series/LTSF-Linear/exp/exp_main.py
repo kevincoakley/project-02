@@ -298,12 +298,15 @@ class Exp_Main(Exp_Basic):
         f.write('\n')
         f.close()
 
-        exp_logger("../", self.args.csv_file, self.args.model, self.args.data, self.args.pred_len, self.args.seed, mse, mae)
+        exp_logger("../", self.args.csv_file, self.args.model, self.args.data, self.args.seq_len, self.args.pred_len, self.args.seed, mse, mae)
 
         # np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe,rse, corr]))
-        np.save(folder_path + 'pred.npy', preds)
-        # np.save(folder_path + 'true.npy', trues)
-        # np.save(folder_path + 'x.npy', inputx)
+        np.save(folder_path + 'pred_' + str(self.args.seed) + '.npy', preds)
+        np.save(folder_path + 'true.npy', trues)
+        np.save(folder_path + 'x.npy', inputx)
+
+        torch.save(self.model, folder_path + '/model_' + str(self.args.seed) + '.pth')
+
         return
 
     def predict(self, setting, load=False):

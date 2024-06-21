@@ -43,7 +43,7 @@ else
     count=100
 fi
 
-seq_len=336
+seq_len=96
 
 array=( 
     3664629611
@@ -165,7 +165,7 @@ do
     --itr 1 \
     --batch_size 32 \
     --learning_rate 0.001 \
-    --csv_file $model_name'_'ETTm2_$pred_len'_'$start'_'$count.csv \
+    --csv_file $model_name'_'ETTm2_$seq_len'_'$pred_len'_'$start'_'$count.csv \
     --seed $i 
 
 done

@@ -10,10 +10,10 @@ else
     exit 1
 fi
 
-pred_len_array=(24 48 96 288 672)
+pred_len_array=(96 192 336 720)
 
 if [[ ! " ${pred_len_array[@]} " =~ " ${pred_len} " ]]; then
-    echo "pred_len must be one of [2, 48, 96, 288, 672]"
+    echo "pred_len must be one of [96, 192, 336, 720]"
     exit 1
 fi
 
@@ -28,6 +28,8 @@ if [[ "${3}" != "" ]]; then
 else
     count=100
 fi
+
+seq_len=96
 
 array=( 
     3664629611
@@ -142,7 +144,7 @@ do
     --model Autoformer \
     --data ETTm2 \
     --features M \
-    --seq_len 96 \
+    --seq_len $seq_len \
     --label_len 48 \
     --pred_len $pred_len \
     --e_layers 2 \
@@ -154,7 +156,7 @@ do
     --des 'Exp' \
     --freq 't' \
     --itr 1 \
-    --csv_file Autoformer_ETTm2_$pred_len'_'$start'_'$count.csv \
+    --csv_file Autoformer_ETTm2_$seq_len'_'$pred_len'_'$start'_'$count.csv \
     --seed $i
     
 done
