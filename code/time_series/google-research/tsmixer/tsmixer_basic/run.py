@@ -282,6 +282,16 @@ def main():
 
   exp_logger.exp_logger("../../../", args.csv_file, args.model, args.data, args.seq_len, args.pred_len, args.seed, test_result[0], test_result[1])
 
+  # Save predictions and weights
+  folder_path = "results/" + str(args.model) + "_" + str(args.data) + "_" + str(args.seq_len) + "_" + str(args.pred_len) + "/"
+
+  if not os.path.exists(folder_path):
+    os.makedirs(folder_path)
+
+  preds = model.predict(test_data)
+  np.save(folder_path + 'pred_' + str(args.seed) + '.npy', preds)
+  model.save_weights(folder_path + 'weights_' + str(args.seed) + '/weights_' + str(args.seed))
+
   df = pd.DataFrame(data)
   if os.path.exists(args.result_path):
     df.to_csv(args.result_path, mode='a', index=False, header=False)
